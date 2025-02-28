@@ -1,11 +1,12 @@
 /* eslint-disable no-unused-vars */
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function SignUp() {
   const [formData, setFormData] = useState({}) ;
   const [error, setError] = useState(false) ;
   const [loading, setLoading] = useState(false) ;
+  const navigate = useNavigate() ;
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value }) ;
   }
@@ -30,35 +31,12 @@ export default function SignUp() {
             setError(true) ;
             return ;
         }
+        navigate('/sign-in')
     } catch (error) {
         setLoading(false);
         setError(true);
     }
   } ;
-
-// const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     try {
-//         const res = await fetch("/api/auth/signup", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json",
-//             },
-//             body: JSON.stringify(formData),
-//         });
-
-//         if (!res.ok) {
-//             const errorText = await res.text(); // Read raw response text
-//             throw new Error(`Error ${res.status}: ${errorText}`);
-//         }
-
-//         const data = await res.json().catch(() => null); // Catch JSON parsing errors
-//         console.log("Response:", data);
-//     } catch (error) {
-//         console.error("Signup failed:", error.message);
-//     }
-// };
-
 
   return (
         <div className="p-3 max-w-lg mx-auto">
