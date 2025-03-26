@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema(
         profilePicture: {
             type: String,
             default:
-                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrDvWiASUjumELvh2nx4n-kNLPuxGFr_pRp_-02AgfneTekCam67JbVNE&s",
+                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ1Nofl8bJVgjEDTtnnlPAlKKAQAGyPuB3Ad-WDid4A259Ina0wNgntKrg&s",
         },
     },
     { timestamps: true }
