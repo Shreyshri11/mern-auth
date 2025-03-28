@@ -20,7 +20,7 @@ export const signin = async (req, res, next) => {
     try {
         const validUser = await User.findOne({ email });
         if (!validUser) return next(errorHandler(404, "User not found"));
-        
+
         const validPassword = bcryptjs.compareSync(
             password,
             validUser.password
@@ -30,8 +30,11 @@ export const signin = async (req, res, next) => {
         //destructure the password to hide the password so that it does not show or send to the client side
         const { password: hashedpassword, ...rest } = validUser._doc;
         // _doc is here to destructure it correctly
-        const expiryDate = new Date(Date.now() + 3600000) ; //1 hour
-        res.cookie("access_token", token, { httpOnly: true, expires: expiryDate })
+        const expiryDate = new Date(Date.now() + 3600000); //1 hour
+        res.cookie("access_token", token, {
+            httpOnly: true,
+            expires: expiryDate,
+        })
             .status(200)
             .json(rest);
     } catch (error) {
@@ -52,7 +55,8 @@ export const google = async (req, res, next) => {
             })
                 .status(200)
                 .json(rest);
-        } else { // if the user is not presented here 
+        } else {
+            // if the user is not presented here
             const generatedPassword =
                 Math.random().toString(36).slice(-8) +
                 Math.random().toString(36).slice(-8);
