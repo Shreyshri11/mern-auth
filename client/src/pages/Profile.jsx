@@ -81,58 +81,73 @@ export default function Profile() {
             }
         );
     };
+    // Handles input field changes and updates form data dynamically
     const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.id]: e.target.value });
+        setFormData({
+            ...formData, // Keep existing form data unchanged
+            [e.target.id]: e.target.value, // Update only the changed field
+        });
     };
 
+    // Handles form submission and updates user data
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault(); // Prevents page refresh on form submission
+
         try {
-            dispatch(updateUserStart());
+            dispatch(updateUserStart()); // Notify the system that an update is starting
+
             const res = await fetch(`/api/user/update/${currentUser._id}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(formData),
+                method: "POST", // Sends data using the POST method
+                headers: { "Content-Type": "application/json" }, // Set request content type to JSON
+                body: JSON.stringify(formData), // Convert form data to JSON format
             });
-            const data = await res.json();
+
+            const data = await res.json(); // Wait for the server response and parse it as JSON
+
             if (data.success === false) {
-                dispatch(updateUserFailure(data));
-                return;
+                dispatch(updateUserFailure(data)); // Notify the system if the update fails
+                return; // Stop further execution
             }
-            dispatch(updateUserSuccess(data));
-            setUpdateSuccess(true);
+
+            dispatch(updateUserSuccess(data)); // Notify the system if the update succeeds
+            setUpdateSuccess(true); // Set state to indicate success
         } catch (error) {
-            dispatch(updateUserFailure(error));
+            dispatch(updateUserFailure(error)); // Handle errors by notifying the system
         }
     };
 
+    // Handles user account deletion
     const handleDeleteAccount = async () => {
         try {
-            dispatch(deleteUserStart());
+            dispatch(deleteUserStart()); // Notify the system that a delete process has started
+
             const res = await fetch(`/api/user/delete/${currentUser._id}`, {
-                method: "DELETE",
+                method: "DELETE", // Sends a DELETE request to remove the user
             });
-            const data = await res.json();
+
+            const data = await res.json(); // Wait for the server response and parse it as JSON
+
             if (data.success === false) {
-                dispatch(deleteUserFailure(data));
-                return;
+                dispatch(deleteUserFailure(data)); // Notify the system if deletion fails
+                return; // Stop further execution
             }
-            dispatch(deleteUserSuccess(data));
+
+            dispatch(deleteUserSuccess(data)); // Notify the system if deletion succeeds
         } catch (error) {
-            dispatch(deleteUserFailure(error));
+            dispatch(deleteUserFailure(error)); // Handle errors by notifying the system
         }
     };
 
+    // Handles user sign-out
     const handleSignOut = async () => {
         try {
-            await fetch("/api/auth/signout");
-            dispatch(signOut());
+            await fetch("/api/auth/signout"); // Send request to log out the user
+            dispatch(signOut()); // Update the system to indicate the user has signed out
         } catch (error) {
-            console.log(error);
+            console.log(error); // Print any errors to the console
         }
     };
+
     return (
         <div className="p-3 max-w-lg mx-auto">
             <h1 className="text-3xl font-semibold text-center my-7">Profile</h1>
