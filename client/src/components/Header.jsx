@@ -24,7 +24,7 @@ export default function Header() {
 
                   <li>Sign In</li>
                   
-                )} ;
+                )}
                 </Link>
             </ul>
         </div>
